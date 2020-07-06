@@ -1,11 +1,11 @@
 package com.example.demo.services;
 
-import com.example.demo.repositories.ProfileRepository;
+import com.example.demo.repositories.StatusChangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProfileService {
+public class StatusChangeService {
     @Autowired
-    private ProfileRepository profileRepository;
+    private StatusChangeRepository statusChangeRepository;
 }
