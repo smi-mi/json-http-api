@@ -18,9 +18,4 @@ public class Status {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String value;
-
-    public Status(String value) {
-        this.value = value;
-    }
-
 }
