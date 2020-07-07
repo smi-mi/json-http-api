@@ -13,12 +13,10 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Status {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Integer id;
     @Id
-    private String value;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private String value = "Offline";
 }

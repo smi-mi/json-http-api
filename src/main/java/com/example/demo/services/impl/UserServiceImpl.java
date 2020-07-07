@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         if (profileOptional.isEmpty()) {
             throw new NoSuchElementException("No user with such id");
         }
-        Optional<Status> newStatusOptional = statusRepository.findById(newStatusValue);
+        Optional<Status> newStatusOptional = statusRepository.findByValue(newStatusValue);
         if (newStatusOptional.isEmpty()) {
             throw new NoSuchElementException("Impossible status");
         }
