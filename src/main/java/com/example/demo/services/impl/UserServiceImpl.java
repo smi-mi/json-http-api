@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Person addUser(@NonNull Person person) {
         personRepository.save(person);
-        Profile profile = new Profile(person, new Status());
+        Profile profile = new Profile(person);
         profileRepository.save(profile);
         return person;
     }

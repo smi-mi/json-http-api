@@ -19,8 +19,7 @@ public class Profile {
     @ManyToOne(fetch = FetchType.EAGER)
     private Status status;
 
-    public Profile(Person person, Status status) {
+    public Profile(Person person) {
         this.person = person;
-        this.status = status;
     }
 }
