@@ -17,7 +17,7 @@ public class StatisticController {
 
     @GetMapping("")
     public Iterable<StatusChange> getStatistic(@RequestBody GetStatisticDTO getStatisticDTO) {
-        Iterable<StatusChange> response;
+        Iterable<StatusChange> response; // TODO return only profiles
         try {
             response = statisticService.get(
                     getStatisticDTO.getStatusValue(),

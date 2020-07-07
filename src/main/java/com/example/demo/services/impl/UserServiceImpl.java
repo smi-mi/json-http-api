@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public StatusChange changeUserStatus(@NonNull Integer id, @NonNull String newStatusValue) throws NoSuchElementException {
+    public StatusChange changeUserStatus(@NonNull Integer id, @NonNull String newStatusValue) {
         Optional<Profile> profileOptional = profileRepository.findByPersonId(id);
         if (profileOptional.isEmpty()) {
             throw new NoSuchElementException("No user with such id");

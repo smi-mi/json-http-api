@@ -13,6 +13,5 @@ public interface UserService {
 
     Optional<Person> getUserPersonalData(Integer id);
 
-    StatusChange changeUserStatus(Integer id, String newStatusValue)
-            throws NoSuchElementException;
+    StatusChange changeUserStatus(Integer id, String newStatusValue);
 }
