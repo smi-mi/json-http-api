@@ -1,7 +1,14 @@
 package com.example.demo.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Profile {
     @Id
@@ -14,33 +21,6 @@ public class Profile {
 
     public Profile(Person person, Status status) {
         this.person = person;
-        this.status = status;
-    }
-
-    public Profile() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
         this.status = status;
     }
 }

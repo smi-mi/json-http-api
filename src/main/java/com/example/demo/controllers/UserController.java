@@ -3,9 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.entities.Person;
 import com.example.demo.entities.Profile;
 import com.example.demo.entities.StatusChange;
-import com.example.demo.services.PersonService;
-import com.example.demo.services.ProfileService;
-import com.example.demo.services.StatusChangeService;
+import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,27 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
-    private PersonService personService;
-    @Autowired
-    private ProfileService profileService;
-    @Autowired
-    private StatusChangeService statusChangeService;
+    private UserService userService;
 
     @PostMapping("/add")
-    public Person addNewPerson() {
+    public Person addUser() {
         throw new UnsupportedOperationException();
     }
 
     @GetMapping("/get")
-    public Profile getProfile() {
+    public Profile getUserPersonalData() {
         throw new UnsupportedOperationException();
     }
 
     @PostMapping("/change_status")
-    public StatusChange changeStatus() {
+    public StatusChange changeUserStatus() {
         throw new UnsupportedOperationException();
     }
 }

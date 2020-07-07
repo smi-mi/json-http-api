@@ -1,7 +1,14 @@
 package com.example.demo.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class StatusChange {
     @Id
@@ -19,49 +26,6 @@ public class StatusChange {
         this.profile = profile;
         this.timestamp = timestamp;
         this.lastStatus = lastStatus;
-        this.newStatus = newStatus;
-    }
-
-    public StatusChange() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
-    public Long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Status getLastStatus() {
-        return lastStatus;
-    }
-
-    public void setLastStatus(Status lastStatus) {
-        this.lastStatus = lastStatus;
-    }
-
-    public Status getNewStatus() {
-        return newStatus;
-    }
-
-    public void setNewStatus(Status newStatus) {
         this.newStatus = newStatus;
     }
 }
