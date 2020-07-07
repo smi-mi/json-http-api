@@ -1,16 +1,19 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.entities.Person;
+import com.example.demo.entities.Profile;
 import com.example.demo.entities.Status;
 import com.example.demo.entities.StatusChange;
 import com.example.demo.repositories.PersonRepository;
 import com.example.demo.repositories.ProfileRepository;
 import com.example.demo.repositories.StatusChangeRepository;
 import com.example.demo.services.UserService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -25,17 +28,36 @@ public class UserServiceImpl implements UserService {
     private final StatusChangeRepository statusChangeRepository;
 
     @Override
-    public Person addUser(Person person) {
-        throw new UnsupportedOperationException();
+    public Person addUser(@NonNull Person person) {
+        personRepository.save(person);
+        Profile profile = new Profile(person, new Status());
+        profileRepository.save(profile);
+        return person;
     }
 
     @Override
-    public Optional<Person> getUserPersonalData() {
-        throw new UnsupportedOperationException();
+    public Optional<Person> getUserPersonalData(@NonNull Integer id) {
+        return personRepository.findById(id);
     }
 
     @Override
-    public StatusChange changeUserStatus(Status newStatus) {
-        throw new UnsupportedOperationException();
+    public StatusChange changeUserStatus(@NonNull Integer id, @NonNull Status newStatus) throws NoSuchElementException {
+        Optional<Profile> profileOptional = profileRepository.findByPersonId(id);
+        if (profileOptional.isEmpty()) {
+            throw new NoSuchElementException("No user with such id");
+        }
+        Profile profile = profileOptional.get();
+        Status lastStatus = profile.getStatus();
+        profile.setStatus(newStatus);
+        profileRepository.save(profile);
+
+        StatusChange statusChange = new StatusChange(
+                profile,
+                System.currentTimeMillis(),
+                lastStatus,
+                newStatus
+        );
+        statusChangeRepository.save(statusChange);
+        return statusChange;
     }
 }

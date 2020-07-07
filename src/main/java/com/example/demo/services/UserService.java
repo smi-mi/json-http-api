@@ -4,13 +4,14 @@ import com.example.demo.entities.Person;
 import com.example.demo.entities.Status;
 import com.example.demo.entities.StatusChange;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public interface UserService {
 
     Person addUser(Person person);
 
-    Optional<Person> getUserPersonalData();
+    Optional<Person> getUserPersonalData(Integer id);
 
-    StatusChange changeUserStatus(Status newStatus);
+    StatusChange changeUserStatus(Integer id, Status newStatus) throws NoSuchElementException;
 }
