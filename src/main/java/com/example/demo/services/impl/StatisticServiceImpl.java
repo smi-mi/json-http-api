@@ -16,7 +16,7 @@ public class StatisticServiceImpl implements StatisticService {
     private final StatusChangeRepository statusChangeRepository;
 
     @Override
-    public Iterable<StatusChange> get(Status status, Long timestamp) {
+    public Iterable<StatusChange> get(String statusValue, Long timestamp) {
         throw new UnsupportedOperationException();
     }
 }

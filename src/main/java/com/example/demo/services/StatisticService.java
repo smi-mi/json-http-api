@@ -6,5 +6,5 @@ import org.springframework.lang.Nullable;
 
 public interface StatisticService {
 
-    Iterable<StatusChange> get(@Nullable Status status, @Nullable Long timestamp);
+    Iterable<StatusChange> get(@Nullable String statusValue, @Nullable Long timestamp);
 }
