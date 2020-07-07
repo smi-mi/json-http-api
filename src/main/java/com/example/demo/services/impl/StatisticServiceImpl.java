@@ -1,9 +1,11 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.entities.Profile;
 import com.example.demo.entities.Status;
 import com.example.demo.entities.StatusChange;
 import com.example.demo.repositories.StatusChangeRepository;
 import com.example.demo.repositories.StatusRepository;
+import com.example.demo.repositories.projections.StatusChangeProjectProfile;
 import com.example.demo.services.StatisticService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,13 @@ public class StatisticServiceImpl implements StatisticService {
     private final StatusChangeRepository statusChangeRepository;
 
     @Override
-    public Iterable<StatusChange> get(String statusValue, Long timestamp) {
+    public Iterable<StatusChangeProjectProfile> get(String statusValue, Long timestamp) {
         if (statusValue == null && timestamp == null) {
-            return statusChangeRepository.findDistinctProfile();
+            // TODO find out how to select distinct profiles from all rows
+            //return statusChangeRepository.findDistinctProfilesAll();
         }
         if (statusValue == null) {
-            return statusChangeRepository.findDistinctProfileByTimestampGreaterThan(timestamp);
+            return statusChangeRepository.findDistinctByTimestampGreaterThan(timestamp);
         }
 
         Optional<Status> statusOptional = statusRepository.findByValue(statusValue);
@@ -37,10 +40,10 @@ public class StatisticServiceImpl implements StatisticService {
         Status status = statusOptional.get();
 
         if (timestamp == null) {
-            return statusChangeRepository.findDistinctProfileByProfileStatusLike(status);
+            return statusChangeRepository.findDistinctByProfileStatusLike(status);
         }
         return statusChangeRepository.
-                findDistinctProfileByTimestampGreaterThanAndProfileStatusLike(
+                findDistinctByTimestampGreaterThanAndProfileStatusLike(
                         timestamp,
                         status
                 );

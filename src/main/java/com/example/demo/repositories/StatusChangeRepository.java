@@ -1,19 +1,21 @@
 package com.example.demo.repositories;
 
+import com.example.demo.entities.Profile;
 import com.example.demo.entities.Status;
 import com.example.demo.entities.StatusChange;
+import com.example.demo.repositories.projections.StatusChangeProjectProfile;
 import org.springframework.data.repository.CrudRepository;
 
 public interface StatusChangeRepository extends CrudRepository<StatusChange, Integer> {
 
-    Iterable<StatusChange> findDistinctProfileByTimestampGreaterThanAndProfileStatusLike(
+    Iterable<StatusChangeProjectProfile> findDistinctByTimestampGreaterThanAndProfileStatusLike(
             Long time,
             Status status
     );
 
-    Iterable<StatusChange> findDistinctProfileByTimestampGreaterThan(Long time);
+    Iterable<StatusChangeProjectProfile> findDistinctByTimestampGreaterThan(Long time);
 
-    Iterable<StatusChange> findDistinctProfileByProfileStatusLike(Status status);
+    Iterable<StatusChangeProjectProfile> findDistinctByProfileStatusLike(Status status);
 
-    Iterable<StatusChange> findDistinctProfile();
+    //Iterable<StatusChangeProjectProfile> findDistinctAll();
 }
