@@ -7,6 +7,7 @@ import com.example.demo.entities.StatusChange;
 import com.example.demo.repositories.PersonRepository;
 import com.example.demo.repositories.ProfileRepository;
 import com.example.demo.repositories.StatusChangeRepository;
+import com.example.demo.repositories.StatusRepository;
 import com.example.demo.services.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final ProfileRepository profileRepository;
     @Autowired
+    private final StatusRepository statusRepository;
+    @Autowired
     private final StatusChangeRepository statusChangeRepository;
 
     @Override
@@ -41,13 +44,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public StatusChange changeUserStatus(@NonNull Integer id, @NonNull Status newStatus) throws NoSuchElementException {
+    public StatusChange changeUserStatus(@NonNull Integer id, @NonNull String newStatusValue) throws NoSuchElementException {
         Optional<Profile> profileOptional = profileRepository.findByPersonId(id);
         if (profileOptional.isEmpty()) {
             throw new NoSuchElementException("No user with such id");
         }
+        Optional<Status> newStatusOptional = statusRepository.findById(newStatusValue);
+        if (newStatusOptional.isEmpty()) {
+            throw new NoSuchElementException("Impossible status");
+        }
+
         Profile profile = profileOptional.get();
         Status lastStatus = profile.getStatus();
+        Status newStatus = newStatusOptional.get();
         profile.setStatus(newStatus);
         profileRepository.save(profile);
 
