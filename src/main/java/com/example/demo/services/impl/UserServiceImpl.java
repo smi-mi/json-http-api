@@ -39,8 +39,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<Person> getUserPersonalData(@NonNull Integer id) {
-        return personRepository.findById(id);
+    public Person getUserPersonalData(@NonNull Integer id) {
+        Optional<Person> personOptional = personRepository.findById(id);
+        if (personOptional.isEmpty()) {
+            throw new NoSuchElementException("No user with such id");
+        }
+        return personOptional.get();
     }
 
     @Override

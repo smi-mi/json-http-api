@@ -9,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -27,23 +24,13 @@ public class UserController {
     @GetMapping("/get")
     public Person getUserPersonalData(@RequestBody GetUserDTO getUserDTO) {
         Integer id = getUserDTO.getId();
-        Optional<Person> personOptional = userService.getUserPersonalData(id);
-        if (personOptional.isEmpty()) {
-            return null; // TODO return error message
-        }
-        return personOptional.get();
+        return userService.getUserPersonalData(id);
     }
 
     @PostMapping("/change_status")
     public StatusChange changeUserStatus(@RequestBody ChangeStatusDTO changeStatusDTO) {
         Integer id = changeStatusDTO.getId();
         String newStatusValue = changeStatusDTO.getNewStatusValue();
-        StatusChange statusChange;
-        try {
-            statusChange = userService.changeUserStatus(id, newStatusValue);
-        } catch (NoSuchElementException ex) {
-            return null; // TODO return error message
-        }
-        return statusChange;
+        return userService.changeUserStatus(id, newStatusValue);
     }
 }

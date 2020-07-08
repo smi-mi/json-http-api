@@ -1,17 +1,14 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.Person;
-import com.example.demo.entities.Status;
 import com.example.demo.entities.StatusChange;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import lombok.NonNull;
 
 public interface UserService {
 
-    Person addUser(Person person);
+    Person addUser(@NonNull Person person);
 
-    Optional<Person> getUserPersonalData(Integer id);
+    Person getUserPersonalData(@NonNull Integer id);
 
-    StatusChange changeUserStatus(Integer id, String newStatusValue);
+    StatusChange changeUserStatus(@NonNull Integer id, @NonNull String newStatusValue);
 }

@@ -1,8 +1,6 @@
 package com.example.demo.controllers;
 
 import com.example.demo.controllers.dto.GetStatisticDTO;
-import com.example.demo.entities.Profile;
-import com.example.demo.entities.StatusChange;
 import com.example.demo.repositories.projections.StatusChangeProjectProfile;
 import com.example.demo.services.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +16,12 @@ public class StatisticController {
     private StatisticService statisticService;
 
     @GetMapping("")
-    public Iterable<StatusChangeProjectProfile> getStatistic(@RequestBody GetStatisticDTO getStatisticDTO) {
-        Iterable<StatusChangeProjectProfile> response; // TODO return only profiles
-        try {
-            response = statisticService.get(
-                    getStatisticDTO.getStatusValue(),
-                    getStatisticDTO.getTimestamp()
-            );
-        } catch (Exception ex) {
-            return null; // TODO return error message
-        }
-        return response;
+    public Iterable<StatusChangeProjectProfile> getStatistic(
+            @RequestBody GetStatisticDTO getStatisticDTO
+    ) {
+        return statisticService.get(
+                getStatisticDTO.getStatusValue(),
+                getStatisticDTO.getTimestamp()
+        );
     }
 }

@@ -1,8 +1,6 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.entities.Profile;
 import com.example.demo.entities.Status;
-import com.example.demo.entities.StatusChange;
 import com.example.demo.repositories.StatusChangeRepository;
 import com.example.demo.repositories.StatusRepository;
 import com.example.demo.repositories.projections.StatusChangeProjectProfile;
@@ -24,7 +22,7 @@ public class StatisticServiceImpl implements StatisticService {
     private final StatusChangeRepository statusChangeRepository;
 
     @Override
-    public Iterable<StatusChangeProjectProfile> get(String statusValue, Long timestamp) {
+    public Iterable<StatusChangeProjectProfile> get(String statusValue, Long timestamp) { // TODO return only profiles
         if (statusValue == null && timestamp == null) {
             // TODO find out how to select distinct profiles from all rows
             //return statusChangeRepository.findDistinctProfilesAll();
