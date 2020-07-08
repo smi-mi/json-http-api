@@ -23,6 +23,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     testCompileOnly 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+    implementation 'junit:junit:4.12'
 }
 
 test {
