@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.controllers.dto.GetStatisticDTO;
-import com.example.demo.repositories.projections.StatusChangeProjectProfile;
+import com.example.demo.repositories.projections.ProfileOnly;
 import com.example.demo.services.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class StatisticController {
     private StatisticService statisticService;
 
     @GetMapping("")
-    public Iterable<StatusChangeProjectProfile> getStatistic(
+    public Iterable<ProfileOnly> getStatistic(
             @RequestBody GetStatisticDTO getStatisticDTO
     ) {
         return statisticService.get(

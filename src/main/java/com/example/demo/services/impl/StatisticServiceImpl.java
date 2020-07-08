@@ -3,7 +3,7 @@ package com.example.demo.services.impl;
 import com.example.demo.entities.Status;
 import com.example.demo.repositories.StatusChangeRepository;
 import com.example.demo.repositories.StatusRepository;
-import com.example.demo.repositories.projections.StatusChangeProjectProfile;
+import com.example.demo.repositories.projections.ProfileOnly;
 import com.example.demo.services.StatisticService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class StatisticServiceImpl implements StatisticService {
     private final StatusChangeRepository statusChangeRepository;
 
     @Override
-    public Iterable<StatusChangeProjectProfile> get(String statusValue, Long timestamp) { // TODO return only profiles
+    public Iterable<ProfileOnly> get(String statusValue, Long timestamp) { // TODO return only profiles
         if (statusValue == null && timestamp == null) {
             // TODO find out how to select distinct profiles from all rows
             //return statusChangeRepository.findDistinctProfilesAll();
