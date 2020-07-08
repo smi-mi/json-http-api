@@ -6,14 +6,13 @@ import com.example.demo.entities.Person;
 import com.example.demo.entities.StatusChange;
 import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
+
     private final UserService userService;
 
     @PostMapping("/add")

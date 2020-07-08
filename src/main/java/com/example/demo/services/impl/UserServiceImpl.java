@@ -11,7 +11,6 @@ import com.example.demo.repositories.StatusRepository;
 import com.example.demo.services.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -21,13 +20,12 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private final PersonRepository personRepository;
-    @Autowired
+
     private final ProfileRepository profileRepository;
-    @Autowired
+
     private final StatusRepository statusRepository;
-    @Autowired
+
     private final StatusChangeRepository statusChangeRepository;
 
     @Override
@@ -41,26 +39,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public Person getUserPersonalData(@NonNull Integer id) {
         Optional<Person> personOptional = personRepository.findById(id);
-        if (personOptional.isEmpty()) {
-            throw new NoSuchElementException("No user with such id");
-        }
-        return personOptional.get();
+        return personOptional.orElseThrow(
+                () -> new NoSuchElementException("No user with such id")
+        );
     }
 
     @Override
     public StatusChange changeUserStatus(@NonNull Integer id, @NonNull String newStatusValue) {
         Optional<Profile> profileOptional = profileRepository.findByPersonId(id);
-        if (profileOptional.isEmpty()) {
-            throw new NoSuchElementException("No user with such id");
-        }
-        Optional<Status> newStatusOptional = statusRepository.findByValue(newStatusValue);
-        if (newStatusOptional.isEmpty()) {
-            throw new NoSuchElementException("Impossible status");
-        }
+        Profile profile = profileOptional.orElseThrow(
+                () -> new NoSuchElementException("No user with such id")
+        );
 
-        Profile profile = profileOptional.get();
+        Optional<Status> newStatusOptional = statusRepository.findByValue(newStatusValue);
+        Status newStatus = newStatusOptional.orElseThrow(
+                () -> new NoSuchElementException("Impossible status")
+        );
+
         Status lastStatus = profile.getStatus();
-        Status newStatus = newStatusOptional.get();
         profile.setStatus(newStatus);
         profileRepository.save(profile);
 

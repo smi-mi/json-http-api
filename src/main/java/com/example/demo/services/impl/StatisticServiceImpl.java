@@ -6,7 +6,6 @@ import com.example.demo.repositories.StatusRepository;
 import com.example.demo.repositories.projections.ProfileOnly;
 import com.example.demo.services.StatisticService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -16,9 +15,8 @@ import java.util.Optional;
 @Service
 public class StatisticServiceImpl implements StatisticService {
 
-    @Autowired
     private final StatusRepository statusRepository;
-    @Autowired
+
     private final StatusChangeRepository statusChangeRepository;
 
     @Override
@@ -32,10 +30,9 @@ public class StatisticServiceImpl implements StatisticService {
         }
 
         Optional<Status> statusOptional = statusRepository.findByValue(statusValue);
-        if (statusOptional.isEmpty()) {
-            throw new NoSuchElementException("Impossible status");
-        }
-        Status status = statusOptional.get();
+        Status status = statusOptional.orElseThrow(
+                () -> new NoSuchElementException("Impossible status")
+        );
 
         if (timestamp == null) {
             return statusChangeRepository.findDistinctByProfileStatusLike(status);

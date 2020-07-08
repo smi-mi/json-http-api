@@ -8,47 +8,41 @@ import com.example.demo.services.impl.StatisticServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class StatisticServiceTest {
 
-    @Mock
+    @MockBean
     private StatusRepository statusRepository;
-    @Mock
+    @MockBean
     private StatusChangeRepository statusChangeRepository;
+    @Autowired
     private StatisticService statisticService;
 
     @BeforeEach
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-        statisticService = new StatisticServiceImpl(statusRepository, statusChangeRepository);
-    }
-
-    @BeforeEach
     public void initStatusRepository() {
-        Status online = Mockito.mock(Status.class);
-        Mockito.when(online.getValue()).thenReturn("Online");
-        Mockito.when(statusRepository.findByValue(Mockito.eq("Online")))
+        Status online = new Status("Online");
+        Mockito.when(statusRepository.findByValue("Online"))
                 .thenReturn(Optional.of(online));
 
-        Status offline = Mockito.mock(Status.class);
-        Mockito.when(offline.getValue()).thenReturn("Offline");
-        Mockito.when(statusRepository.findByValue(Mockito.eq("Offline")))
+        Status offline = new Status("Offline");
+        Mockito.when(statusRepository.findByValue("Offline"))
                 .thenReturn(Optional.of(offline));
 
-        Mockito.when(statusRepository.findByValue(null)).thenThrow(IllegalArgumentException.class);
-//        Mockito.when(statusRepository.findByValue(
-//                Mockito.argThat(arg -> arg.equals("Online") || arg.equals("Offline"))))
-//                .thenReturn(Optional.of(Mockito.mock(Status.class)));
         Mockito.when(statusRepository.findByValue(
                 Mockito.argThat(arg -> !arg.equals("Online") && !arg.equals("Offline"))))
                 .thenReturn(Optional.empty());
@@ -84,29 +78,27 @@ public class StatisticServiceTest {
     }
 
     @Test
-    public void get_differentStatusValue_returnFilteredByStatus() {
+    public void get_statusValueIsOnline_returnFilteredByStatus() {
         Iterable<ProfileOnly> onlines = List.of();
-        Mockito.when(statusChangeRepository.findDistinctByProfileStatusLike(
-                Mockito.argThat(arg -> arg.getValue().equals("Online"))))
+        Status online = new Status("Online");
+        Mockito.when(statusChangeRepository.findDistinctByProfileStatusLike(online))
                 .thenReturn(onlines);
-
-//        Iterable<ProfileOnly> offlines = List.of();
-////                Mockito.mock(ProfileOnly.class),
-////                Mockito.mock(ProfileOnly.class)
-////        );
-//        Mockito.when(statusChangeRepository.findDistinctByProfileStatusLike(
-//                Mockito.argThat(arg -> arg.getValue().equals("Offline"))))
-//                .thenReturn(offlines);
-//        Iterable<ProfileOnly> offlines = List.of();
-//        Mockito.when(statusChangeRepository.findDistinctByProfileStatusLike(
-//                Mockito.argThat(arg -> arg.getValue().equals("Offline"))))
-//                .thenReturn(offlines);
-
         Assertions.assertEquals(statisticService.get("Online", null), onlines);
-        //Assertions.assertEquals(statisticService.get("Offline", null), offlines);
-//        NoSuchElementException ex = Assertions.assertThrows(NoSuchElementException.class,
-//                () -> statisticService.get("BadStatus", null));
-//        Assertions.assertEquals(ex.getMessage(), "Impossible status");
+    }
+
+    @Test
+    public void get_statusValueIsOffline_returnFilteredByStatus() {
+        Iterable<ProfileOnly> offlines = List.of();
+        Mockito.when(statusChangeRepository.findDistinctByProfileStatusLike(
+                Mockito.argThat(arg -> arg.getValue().equals("Offline"))))
+                .thenReturn(offlines);
+        Assertions.assertEquals(statisticService.get("Offline", null), offlines);
+    }
+
+    @Test
+    public void get_badStatusValue_throwNoSuchElementException() {
+        Assertions.assertThrows(NoSuchElementException.class,
+                () -> statisticService.get("BadStatus", null));
     }
 
     @Test
