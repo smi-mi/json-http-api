@@ -10,11 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -23,20 +22,28 @@ import static org.mockito.ArgumentMatchers.any;
 public class StatisticServiceTest {
 
     @Mock
-    private StatusRepository statusRepository = Mockito.mock(StatusRepository.class);
+    private StatusRepository statusRepository;
     @Mock
-    private StatusChangeRepository statusChangeRepository = Mockito.mock(StatusChangeRepository.class);
-    private StatisticService statisticService = new StatisticServiceImpl(statusRepository, statusChangeRepository);
+    private StatusChangeRepository statusChangeRepository;
+    private StatisticService statisticService;
 
-    @BeforeTestClass
+    @BeforeEach
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+        statisticService = new StatisticServiceImpl(statusRepository, statusChangeRepository);
+    }
+
+    @BeforeEach
     public void initStatusRepository() {
         Status online = Mockito.mock(Status.class);
         Mockito.when(online.getValue()).thenReturn("Online");
-        Mockito.when(statusRepository.findByValue("Online")).thenReturn(Optional.of(online));
+        Mockito.when(statusRepository.findByValue(Mockito.eq("Online")))
+                .thenReturn(Optional.of(online));
 
         Status offline = Mockito.mock(Status.class);
-        Mockito.when(online.getValue()).thenReturn("Offline");
-        Mockito.when(statusRepository.findByValue("Offline")).thenReturn(Optional.of(offline));
+        Mockito.when(offline.getValue()).thenReturn("Offline");
+        Mockito.when(statusRepository.findByValue(Mockito.eq("Offline")))
+                .thenReturn(Optional.of(offline));
 
         Mockito.when(statusRepository.findByValue(null)).thenThrow(IllegalArgumentException.class);
 //        Mockito.when(statusRepository.findByValue(
@@ -47,7 +54,7 @@ public class StatisticServiceTest {
                 .thenReturn(Optional.empty());
     }
 
-    @BeforeTestClass
+    @BeforeEach
     public void initStatusChangeRepository() {
         Mockito.when(statusChangeRepository.findDistinctByProfileStatusLike(null))
                 .thenThrow(IllegalArgumentException.class);
