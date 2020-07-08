@@ -24,8 +24,8 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public Iterable<ProfileOnly> get(String statusValue, Long timestamp) { // TODO return only profiles
         if (statusValue == null && timestamp == null) {
-            // TODO find out how to select distinct profiles from all rows
-            //return statusChangeRepository.findDistinctProfilesAll();
+            //return statusChangeRepository.findDistinctAll();
+            return statusChangeRepository.findDistinctByTimestampGreaterThan((long) 0); // HACK
         }
         if (statusValue == null) {
             return statusChangeRepository.findDistinctByTimestampGreaterThan(timestamp);
