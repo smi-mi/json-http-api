@@ -35,12 +35,12 @@ public class StatisticServiceImpl implements StatisticService {
         );
 
         if (timestamp == null) {
-            return statusChangeRepository.findDistinctByProfileStatusLike(status);
+            return statusChangeRepository.findDistinctByProfileStatusValueLike(statusValue);
         }
         return statusChangeRepository.
-                findDistinctByTimestampGreaterThanAndProfileStatusLike(
+                findDistinctByTimestampGreaterThanAndProfileStatusValueLike(
                         timestamp,
-                        status
+                        statusValue
                 );
     }
 }

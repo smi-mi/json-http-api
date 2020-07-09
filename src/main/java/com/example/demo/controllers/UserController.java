@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.controllers.dto.AddUserDTO;
 import com.example.demo.controllers.dto.ChangeStatusDTO;
-import com.example.demo.controllers.dto.GetUserDTO;
 import com.example.demo.entities.Person;
 import com.example.demo.entities.StatusChange;
 import com.example.demo.services.UserService;
@@ -24,8 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public Person getUserPersonalData(@RequestBody GetUserDTO getUserDTO) {
-        Integer id = getUserDTO.getId();
+    public Person getUserPersonalData(@RequestParam Integer id) {
         return userService.getUserPersonalData(id);
     }
 
