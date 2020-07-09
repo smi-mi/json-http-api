@@ -68,8 +68,8 @@ public class UserServiceTest {
 
         userService.addUser(person);
 
-        Mockito.verify(personRepository).save(person);
-        Mockito.verify(profileRepository).save(any());
+        Mockito.verify(personRepository, Mockito.times(1)).save(person);
+        Mockito.verify(profileRepository, Mockito.times(1)).save(any());
     }
 
     @Test
@@ -79,8 +79,8 @@ public class UserServiceTest {
 
         userService.addUser(person);
 
-        Mockito.verify(personRepository).save(person);
-        Mockito.verify(profileRepository).save(any());
+        Mockito.verify(personRepository, Mockito.times(1)).save(person);
+        Mockito.verify(profileRepository, Mockito.times(1)).save(any());
     }
 
     @Test
@@ -90,8 +90,8 @@ public class UserServiceTest {
 
         userService.addUser(person);
 
-        Mockito.verify(personRepository).save(person);
-        Mockito.verify(profileRepository).save(any());
+        Mockito.verify(personRepository, Mockito.times(1)).save(person);
+        Mockito.verify(profileRepository, Mockito.times(1)).save(any());
     }
 
     @Test
@@ -100,8 +100,8 @@ public class UserServiceTest {
 
         userService.addUser(person);
 
-        Mockito.verify(personRepository).save(person);
-        Mockito.verify(profileRepository).save(any());
+        Mockito.verify(personRepository, Mockito.times(1)).save(person);
+        Mockito.verify(profileRepository, Mockito.times(1)).save(any());
     }
 
     // getUserPersonalData() tests
@@ -181,9 +181,13 @@ public class UserServiceTest {
         Mockito.when(profileRepository.findByPersonId(any()))
                 .thenReturn(Optional.of(expectedProfile));
 
-        StatusChange statusChange = userService.changeUserStatus(10, "Offline");
+        String newStatusValue = "Offline";
+        StatusChange statusChange = userService.changeUserStatus(10, newStatusValue);
+        Profile actualProfile = statusChange.getProfile();
 
-        Assertions.assertEquals(expectedProfile, statusChange.getProfile());
+        Assertions.assertSame(expectedProfile, actualProfile);
+        Assertions.assertEquals(newStatusValue, statusChange.getNewStatus().getValue());
+        Assertions.assertEquals(newStatusValue, actualProfile.getStatus().getValue());
         Mockito.verify(statusChangeRepository, Mockito.times(1))
                 .save(statusChange);
         Mockito.verify(profileRepository, Mockito.times(1))
