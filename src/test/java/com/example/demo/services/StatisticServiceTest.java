@@ -83,8 +83,8 @@ public class StatisticServiceTest {
                 new ProfileOnly(new Profile()),
                 new ProfileOnly(new Profile())
         );
-        Mockito.when(statusChangeRepository.findDistinctByProfileStatusLike(
-                Mockito.argThat(arg -> arg.getValue().equals("Online"))))
+        Mockito.when(statusChangeRepository.findDistinctByProfileStatusValueLike(
+                Mockito.argThat(arg -> arg.equals("Online"))))
                 .thenReturn(onlines);
 
         Assertions.assertEquals(onlines, statisticService.get("Online", null));
@@ -93,8 +93,8 @@ public class StatisticServiceTest {
     @Test
     public void get_statusValueIsOffline_returnFilteredByStatus() {
         Iterable<ProfileOnly> offlines = List.of(new ProfileOnly(new Profile()));
-        Mockito.when(statusChangeRepository.findDistinctByProfileStatusLike(
-                Mockito.argThat(arg -> arg.getValue().equals("Offline"))))
+        Mockito.when(statusChangeRepository.findDistinctByProfileStatusValueLike(
+                Mockito.argThat(arg -> arg.equals("Offline"))))
                 .thenReturn(offlines);
 
         Assertions.assertEquals(offlines, statisticService.get("Offline", null));
@@ -114,7 +114,7 @@ public class StatisticServiceTest {
                 new ProfileOnly(new Profile()),
                 new ProfileOnly(new Profile())
         );
-        Mockito.when(statusChangeRepository.findDistinctByTimestampGreaterThanAndProfileStatusLike(
+        Mockito.when(statusChangeRepository.findDistinctByTimestampGreaterThanAndProfileStatusValueLike(
                 Mockito.anyLong(), any()))
                 .thenReturn(expectedResponse);
 
