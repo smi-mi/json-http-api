@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.controllers.dto.AddUserDTO;
 import com.example.demo.controllers.dto.ChangeStatusDTO;
 import com.example.demo.controllers.dto.GetUserDTO;
 import com.example.demo.entities.Person;
@@ -16,8 +17,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/add")
-    public Person addUser(@RequestBody Person person) {
-        return userService.addUser(person);
+    public Person addUser(@RequestBody AddUserDTO addUserDTO) {
+        return userService.addUser(
+                new Person(addUserDTO.getName(), addUserDTO.getEmail(), addUserDTO.getPhone())
+        );
     }
 
     @GetMapping("/get")
